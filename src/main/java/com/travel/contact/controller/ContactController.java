@@ -26,7 +26,7 @@ public class ContactController {
 	@PostMapping("/saveContact")
 	public ResponseEntity<Contact> saveContact(@RequestBody Contact tContact) throws Exception {
 		if (tContact != null) {
-			//validation to be buildon email & phone no
+			//validation to be build on email & phone no
 			tContact.setCreatedDate(new Date());
 			tContact.setSourceSystem("Website");
 			tContactService.createContact(tContact);
