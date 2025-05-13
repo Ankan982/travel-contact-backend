@@ -8,4 +8,4 @@ FROM openjdk:17-jdk-slim
 
 COPY --from=build target/*.jar contact_ms.jar
 
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+ENTRYPOINT ["java", "-jar", "contact_ms.jar"]
