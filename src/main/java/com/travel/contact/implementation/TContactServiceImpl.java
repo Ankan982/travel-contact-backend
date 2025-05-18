@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.travel.contact.model.Contact;
+import com.travel.contact.model.GetContactDetailResponse;
 import com.travel.contact.repository.TContactRepository;
 import com.travel.contact.service.TContactService;
 
@@ -30,12 +31,26 @@ public class TContactServiceImpl implements TContactService {
 	}
 
 	@Override
-	public List<Contact> getContactDetails() throws Exception {
+	public GetContactDetailResponse getContactDetails() throws Exception {
 		
+		GetContactDetailResponse getContactDetailResponse = new GetContactDetailResponse();
 		List<Contact> lstContacts=tContactRepository.findAll();
+		
+		String totalQueryCount="0";
+		String websiteCount="0";
+		String otherCount="0";
+		
         if(null!=lstContacts && lstContacts.size()>0)
         {
-        	return lstContacts;
+        	totalQueryCount = String.valueOf(lstContacts.size());
+        	websiteCount = String.valueOf( lstContacts.stream().filter(p-> p.getSourceSystem().equalsIgnoreCase("Website")).count() );
+        	otherCount=  String.valueOf(Long.valueOf(lstContacts.size())- lstContacts.stream().filter(p-> p.getSourceSystem().equalsIgnoreCase("Website")).count() );
+        	getContactDetailResponse.setLstContactDetails(lstContacts);
+        	getContactDetailResponse.setTotalQueryCount(totalQueryCount);
+        	getContactDetailResponse.setTotalWebsiteQueryCount(websiteCount);
+        	getContactDetailResponse.setOtherQueryCount(otherCount);
+        	
+        	return getContactDetailResponse;
         }
         throw new Exception("Contacts is null");
 	}
