@@ -25,6 +25,13 @@ public class ContactController {
 	@Autowired
 	private  TContactService tContactService;
 	
+	@GetMapping("/callContactMS")
+	public ResponseEntity<String> wakeUpCall()
+	{
+		
+		return  new ResponseEntity<>("Welcome from Contact MS", HttpStatus.OK);
+	}
+	
 	@PostMapping("/saveContact")
 	public ResponseEntity<Contact> saveContact(@RequestBody Contact tContact) throws Exception {
 		if (tContact != null) {
